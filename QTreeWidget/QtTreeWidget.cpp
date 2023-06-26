@@ -97,3 +97,15 @@ void QtTreeWidget::contextMenuEvent(QContextMenuEvent* event)
     menu->exec(QCursor::pos());
     //menu->exec(ui->treeWidget->mapToGlobal(pos));
 }
+void QtTreeWidget::add_designTable()
+{
+    qDebug() << "是第一组这个东西";
+}
+void QtTreeWidget::add_closeConnection()
+{
+    qDebug() << "是语文这个东西";
+}
+void QtTreeWidget::add_globle()
+{
+    qDebug() << "globle";
+}
