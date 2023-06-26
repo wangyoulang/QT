@@ -14,7 +14,10 @@ public:
 private slots:
     void on_item_clicked(QTreeWidgetItem*, int);
     void on_item_double_clicked(QTreeWidgetItem*, int);
-
+    void add_designTable();
+    void add_closeConnection();
+    void add_globle();
 private:
     Ui::QtTreeWidgetClass *ui;
+    void contextMenuEvent(QContextMenuEvent* event);
 };
