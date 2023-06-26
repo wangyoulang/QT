@@ -14,6 +14,7 @@ public:
 private slots:
     void on_item_clicked(QTreeWidgetItem*, int);
     void on_item_double_clicked(QTreeWidgetItem*, int);
+    void on_item_right_cicked(const QPoint& pos);
     void add_designTable();
     void add_closeConnection();
     void add_globle();
