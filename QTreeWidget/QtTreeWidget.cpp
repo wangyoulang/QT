@@ -14,6 +14,11 @@ QtTreeWidget::QtTreeWidget(QWidget *parent)
 
     //QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(on_item_clicked(QTreeWidgetItem*, int)));
     QObject::connect(ui->treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(on_item_double_clicked(QTreeWidgetItem*, int)));
+    // 右击菜单栏可以使用两种方式：
+    // 1、鼠标右击事件：contextMenuEvent(QContextMenuEvent* event)
+    // 2、使用customContextMenuRequested信号，这种方式如下：
+    ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu); 
+    QObject::connect(ui->treeWidget, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_item_right_cicked(const QPoint&)));
 
 
     // 添加节点方法1
@@ -59,7 +64,7 @@ void QtTreeWidget::on_item_double_clicked(QTreeWidgetItem* item, int colum)
     }
 }
 
-// 鼠标右击事件
+// 第一种方式：鼠标右击事件
 void QtTreeWidget::contextMenuEvent(QContextMenuEvent* event)
 {
     QPoint pos = event->globalPos();  // 获取全局坐标
@@ -96,6 +101,42 @@ void QtTreeWidget::contextMenuEvent(QContextMenuEvent* event)
     }
     menu->exec(QCursor::pos());
     //menu->exec(ui->treeWidget->mapToGlobal(pos));
+}
+
+// 第二种方式
+void QtTreeWidget::on_item_right_cicked(const QPoint& pos)
+{
+    /*
+    菜单
+    */
+    designTable = new QAction("第一组");
+    designTable->setStatusTip("第一组");
+    closeConnection = new QAction("语文");
+    closeConnection->setStatusTip("语文");
+    globle = new QAction("全局");
+    globle->setStatusTip("全局");
+    connect(designTable, &QAction::triggered, this, &QtTreeWidget::add_designTable);
+    connect(closeConnection, &QAction::triggered, this, &QtTreeWidget::add_closeConnection);
+    menu->clear();
+    QTreeWidgetItem* item = ui->treeWidget->itemAt(pos);
+    if (item == nullptr)
+    {
+        menu->addAction(globle);
+        menu->exec(ui->treeWidget->mapToGlobal(pos));
+        return;
+    }
+    int type = item->type();
+    if (type == 1)
+    {
+        menu->addAction(designTable);
+    }
+    else if (type == 2)
+    {
+        menu->addAction(closeConnection);
+    }
+    //menu->exec(QCursor::pos());
+    menu->exec(ui->treeWidget->mapToGlobal(pos));
+    
 }
 void QtTreeWidget::add_designTable()
 {
