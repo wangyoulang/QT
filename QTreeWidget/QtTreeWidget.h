@@ -21,4 +21,8 @@ private slots:
 private:
     Ui::QtTreeWidgetClass *ui;
     void contextMenuEvent(QContextMenuEvent* event);
+    QMenu* menu = new QMenu(this);
+    QAction* designTable;
+    QAction* closeConnection;
+    QAction* globle;
 };
